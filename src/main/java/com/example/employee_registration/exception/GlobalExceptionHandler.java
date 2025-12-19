@@ -2,6 +2,7 @@ package com.example.employee_registration.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -33,6 +34,15 @@ public class GlobalExceptionHandler {
                 .body(Map.of(
                         "error", "Something went wrong",
                         "status", HttpStatus.INTERNAL_SERVER_ERROR.value()
+                ));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Map<String, Object>> handleBadCredentials(BadCredentialsException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(
+                        "error", "Something went wrong",
+                        "status", HttpStatus.UNAUTHORIZED.value()
                 ));
     }
 }
